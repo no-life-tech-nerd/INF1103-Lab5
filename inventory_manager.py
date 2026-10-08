@@ -12,6 +12,17 @@ def warnUser(message: str) -> None:
     warning(message)
     errorCount += 1
 
+def display_all() -> None:
+    print("Current Inventory")
+    print("-----------------")
+
+    # try:
+    for product in inventory:
+        print(f"ID: {product["prodId"]} | Name: {product["name"]} | Price: ${round(product["price"], 2)} | Stock: {product["stock"]}")
+    # except:
+    #     print("No products in inventory to display!")
+
+    print("-----------------")
 
 def add_product() -> None:
     print("Add New Product")
