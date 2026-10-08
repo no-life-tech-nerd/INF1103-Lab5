@@ -1,0 +1,10 @@
+[tools]
+python = "3.14.7"
+uv = "0.12.19"
+
+[env]
+UV_PYTHON = { value = "{{ tools.python.path }}", tools = true }
+# UV_PYTHON = "{{ mise_path 'python' }}/bin/python"
+
+[settings]
+python.uv_venv_auto = "create|source"
