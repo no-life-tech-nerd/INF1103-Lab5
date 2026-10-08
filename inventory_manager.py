@@ -1,3 +1,4 @@
+import json
 from logging import warning
 from os import environ, getcwd
 
@@ -18,6 +19,13 @@ def int_input(message: str) -> int:
             return int(input(message))
         except ValueError:
             warnUser("\nInput must be an integer, try again!\n")
+
+def load_inventory() -> list[dict]:
+    try:
+        with open(dataFile, 'r') as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return []
 
 def display_all() -> None:
     print("Current Inventory")
@@ -80,4 +88,8 @@ def search_product() -> None:
             print(f"\nProduct found:\nID: {product["prodId"]}\nName: {product["name"]}\nPrice: {product["price"]}\nCurrent Stock: {product["stock"]}\n")
             return
     print("Product not found.")
+
+def save_inventory() -> None:
+    with open(dataFile, 'w') as file:
+        file.write(json.dump(inventory))
 
