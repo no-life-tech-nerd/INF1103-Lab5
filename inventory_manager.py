@@ -1,6 +1,7 @@
 import json
 from logging import warning
 from os import environ, getcwd
+from pickle import load
 
 errorCount = int(0)
 
@@ -25,6 +26,7 @@ def load_inventory() -> list[dict]:
         with open(dataFile, 'r') as file:
             return json.load(file)
     except FileNotFoundError:
+        print("File not found, using empty inventory.")
         return []
 
 def display_all() -> None:
@@ -76,6 +78,8 @@ def update_stock() -> None:
             print(f"\nProduct found:\nName: {product["name"]}\nCurrent Stock: {product["stock"]}\n")
             new_stock = int_input("New Stock Quantity: ")
             product["stock"] = new_stock
+            if new_stock > 500:
+                warnUser(f"There are more than 500 quantity of item {product["name"]} in inventory!")
             return
     print("Product not found.")
 
@@ -85,15 +89,15 @@ def search_product() -> None:
     prodId = int_input("Enter product ID: ")
     for product in inventory:
         if prodId == product["prodId"]:
-            print(f"\nProduct found:\nID: {product["prodId"]}\nName: {product["name"]}\nPrice: {product["price"]}\nCurrent Stock: {product["stock"]}\n")
+            print(f"\nProduct found:\nID: {product["prodId"]}\nName: {product["name"]}\nPrice: {round(product["price"], 2)}\nCurrent Stock: {product["stock"]}\n")
             return
     print("Product not found.")
 
 def save_inventory() -> None:
     with open(dataFile, 'w') as file:
-        file.write(json.dump(inventory))
+        json.dump(inventory, file)
 
-load_inventory()
+inventory = load_inventory()
 
 while True:
     print("\n========================================")
