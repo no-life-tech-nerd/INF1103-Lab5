@@ -35,7 +35,7 @@ def display_all() -> None:
 
     # try:
     for product in inventory:
-        print(f"ID: {product["prodId"]} | Name: {product["name"]} | Price: ${round(product["price"], 2)} | Stock: {product["stock"]}")
+        print(f"ID: {product["prodId"]} | Name: {product["name"]} | Price: ${round(product["price"], 2):.2f} | Stock: {product["stock"]}")
     # except:
     #     print("No products in inventory to display!")
 
@@ -89,7 +89,7 @@ def search_product() -> None:
     prodId = int_input("Enter product ID: ")
     for product in inventory:
         if prodId == product["prodId"]:
-            print(f"\nProduct found:\nID: {product["prodId"]}\nName: {product["name"]}\nPrice: {round(product["price"], 2)}\nCurrent Stock: {product["stock"]}\n")
+            print(f"\nProduct found:\nID: {product["prodId"]}\nName: {product["name"]}\nPrice: {round(product["price"], 2):.2f}\nCurrent Stock: {product["stock"]}\n")
             return
     print("Product not found.")
 
