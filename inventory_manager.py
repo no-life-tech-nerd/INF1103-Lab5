@@ -12,6 +12,13 @@ def warnUser(message: str) -> None:
     warning(message)
     errorCount += 1
 
+def int_input(message: str) -> int:
+    while True:
+        try:
+            return int(input(message))
+        except ValueError:
+            warnUser("\nInput must be an integer, try again!\n")
+
 def display_all() -> None:
     print("Current Inventory")
     print("-----------------")
@@ -27,22 +34,14 @@ def display_all() -> None:
 def add_product() -> None:
     print("Add New Product")
     print("---------------")
-    try:
-        prodId = int(input("Enter product ID: "))
-    except ValueError:
-        warnUser("\nInput must be an integer, try again!\n")
-        return
+    prodId = int_input("Enter product ID: ")
     name = input("Enter product name: ")
     try:
         price = round(float(input("Enter product price: ")), 2)
     except ValueError:
         warnUser("\nInput must be a float of up to 2 decimal places, try again!\n")
         return
-    try:
-        stock = int(input("Enter stock quantity: "))
-    except ValueError:
-        warnUser("\nInput must be an integer, try again!\n")
-        return
+    stock = int_input("Enter stock quantity: ")
 
     for product in inventory:
         if prodId == product["prodId"]:
@@ -63,15 +62,22 @@ def add_product() -> None:
 def update_stock() -> None:
     print("Update Stock")
     print("------------")
-    prodId = int(input("Enter product ID: "))
+    prodId = int_input("Enter product ID: ")
     for product in inventory:
         if prodId == product["prodId"]:
             print(f"\nProduct found:\nName: {product["name"]}\nCurrent Stock: {product["stock"]}\n")
-            try:
-                new_stock = int(input("New Stock Quantity: "))
-            except ValueError:
-                print("\nNew stock quantity must be an integer, try again!\n")
-                return
+            new_stock = int_input("New Stock Quantity: ")
             product["stock"] = new_stock
             return
     print("Product not found.")
+
+def search_product() -> None:
+    print("Search Product")
+    print("--------------")
+    prodId = int_input("Enter product ID: ")
+    for product in inventory:
+        if prodId == product["prodId"]:
+            print(f"\nProduct found:\nID: {product["prodId"]}\nName: {product["name"]}\nPrice: {product["price"]}\nCurrent Stock: {product["stock"]}\n")
+            return
+    print("Product not found.")
+
