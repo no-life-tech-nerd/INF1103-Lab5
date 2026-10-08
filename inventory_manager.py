@@ -1,0 +1,50 @@
+from logging import warning
+from os import environ, getcwd
+
+errorCount = int(0)
+
+dataFile = f"{str(environ.get('DATA_PATH') or getcwd())}/inventory.json"
+
+inventory: list[dict] = []
+
+def warnUser(message: str) -> None:
+    global errorCount
+    warning(message)
+    errorCount += 1
+
+
+def add_product() -> None:
+    print("Add New Product")
+    print("---------------")
+    try:
+        prodId = int(input("Enter product ID: "))
+    except ValueError:
+        warnUser("\nInput must be an integer, try again!\n")
+        return
+    name = input("Enter product name: ")
+    try:
+        price = round(float(input("Enter product price: ")), 2)
+    except ValueError:
+        warnUser("\nInput must be a float of up to 2 decimal places, try again!\n")
+        return
+    try:
+        stock = int(input("Enter stock quantity: "))
+    except ValueError:
+        warnUser("\nInput must be an integer, try again!\n")
+        return
+
+    for product in inventory:
+        if prodId == product["prodId"]:
+            warnUser("\nThis product ID already exists, try again!\n")
+            return
+        elif name == product["name"]:
+            warnUser("\nThis product name already exists, try again!\n")
+            return
+
+    try:
+        inventory.append({"prodId": prodId, "name": name, "price": price, "stock": stock})
+        print("\nProduct added successfully!\n")
+        return
+    except:
+        print("\nUnknown error adding new product to inventory, try again!\n")
+        return
