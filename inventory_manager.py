@@ -59,3 +59,19 @@ def add_product() -> None:
     except:
         print("\nUnknown error adding new product to inventory, try again!\n")
         return
+
+def update_stock() -> None:
+    print("Update Stock")
+    print("------------")
+    prodId = int(input("Enter product ID: "))
+    for product in inventory:
+        if prodId == product["prodId"]:
+            print(f"\nProduct found:\nName: {product["name"]}\nCurrent Stock: {product["stock"]}\n")
+            try:
+                new_stock = int(input("New Stock Quantity: "))
+            except ValueError:
+                print("\nNew stock quantity must be an integer, try again!\n")
+                return
+            product["stock"] = new_stock
+            return
+    print("Product not found.")
